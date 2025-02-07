@@ -3,4 +3,4 @@ from config import LOG_FILE
 
 def log_error(error_message):
     with open(LOG_FILE, "a") as log_file:
-        log_file.write(str(datetime.today()) + " - " + error_message + "\n")
+        log_file.write(str(datetime.now()) + " - " + error_message + "\n")
