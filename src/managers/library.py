@@ -34,18 +34,21 @@ class Library:
         print(f"Added '{book_as_dict["title"]}' by {book_as_dict["author"]} in library !")
     
     def del_book(self, book_id):
+        counter = 0
         for element in self.library:
-            if element["title"] == book_id:
+            if element["id"] == book_id:
                 self.library.remove(element)
+                counter += 1
                 print(f"Succesfully removed '{element["title"]}' by {element["author"]} from library")
-        print(f"Book id:{book_id} not found in library")
+        if counter == 0:
+            print(f"Book id:{book_id} not found in library")
+        self._dump_library()
                 
     def edit_book(self, book_id, field_to_edit, new_value):
         for element in self.library:
             if element["id"] == book_id:
                 print(f"Succesfully edit book {field_to_edit} from '{element[field_to_edit]}' to '{new_value}'")
                 element[field_to_edit] = new_value
-                
         self._dump_library()
 
 
@@ -72,23 +75,26 @@ class PersonnalLibrary:
         except OSError as e:
             log_error(f"Error: Failed to write to {self.pers_library_file}. Reason: {e}")
 
-    def add_book_pers_data(self, book):
-        reading_record = ReadingRecord(book)
+    def add_book_reading_record(self, reading_record):
         reading_record_as_dict = reading_record.__dict__
         for element in self.pers_library:
             if reading_record_as_dict["id"] == element["id"]:
-                print(f"Personal data for '{book.title}' by {book.author} already in library !")
+                print(f"Personal data for '{reading_record.title}' by {reading_record.author} already in library !")
                 return
         self.pers_library.append(reading_record_as_dict)
         self._dump_library()
-        print(f"Added personal data for '{book.title}' by {book.author} in library !")
+        print(f"Added personal data for '{reading_record.title}' by {reading_record.author} in library !")
 
     def del_book_pers_data(self, book_id):
+        counter = 0
         for element in self.pers_library:
             if element["id"] == book_id:
                 self.pers_library.remove(element)
+                counter += 1
                 print(f"Succesfully removed personal data for '{element["title"]}' by {element["author"]} from library")
-        print(f"Personal data for book id:{book_id} not found in library")
+        if counter == 0:
+            print(f"Personal data for book id:{book_id} not found in library")
+        self._dump_library()
 
     def book_started(self, book_id, start_date):
         for element in self.pers_library:
@@ -104,6 +110,7 @@ class PersonnalLibrary:
                     element["end_date"] = end_date
                 else:
                     element["end_date"] = "Unknown"
+        self._dump_library()
 
     def __repr__(self):
         return str(self.pers_library)

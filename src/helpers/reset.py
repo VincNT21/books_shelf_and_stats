@@ -1,4 +1,3 @@
-from config import LIBRARY_FILE, LOG_FILE, BOOK_TYPE_FILE
 from helpers.logging_utils import log_error
 import json
 

@@ -8,13 +8,13 @@ from config import LIBRARY_FILE, PERSONAL_LIBRARY_FILE, LOG_FILE
 def main():
     pass
     
-def initialize_libraries():
+def initialize_new_libraries():
     reset(LIBRARY_FILE)
     reset(PERSONAL_LIBRARY_FILE)
     user_library = Library()
     user_pers_data_library = PersonnalLibrary()
 
-def add_book(
+def new_book(
         user_library, user_pers_data_library,
         title, author, 
         editor=None, page_nbr=None, year_published=None, 
@@ -23,12 +23,20 @@ def add_book(
 ):
     current_book = Book(title, author, editor, page_nbr, year_published, type, genre, isbn)
     user_library.add_book(current_book)
-    user_pers_data_library.add_book_pers_data(current_book)
-    book_reading_record = ReadingRecord(current_book)
+    curr_book_reading_record = ReadingRecord(current_book)
     if start_date != None:
-        book_reading_record.begin_reading(start_date)
+        curr_book_reading_record.begin_reading(start_date)
     if is_read:
-        book_reading_record.finish_reading(end_date)
+        curr_book_reading_record.finish_reading(end_date)
+    user_pers_data_library.add_book_reading_record(curr_book_reading_record)
+
+def remove_book(user_library, user_pers_data_library, book_id):
+    user_library.del_book(book_id)
+    user_pers_data_library.del_book_pers_data(book_id)
+
+def begin_a_book(user_pers_data_library, book_id):
+    pass
+    
     
 
 main()
