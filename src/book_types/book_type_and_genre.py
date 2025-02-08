@@ -33,8 +33,20 @@ class BookGenres:
         if self.is_main_genre_exist(main_genre):
             normalized = normalize_text(new_sub_genre)
             self._valid_genres[main_genre].append(new_sub_genre)
+            self._dump_file()
             print(f"New sub genre added in {main_genre}: {new_sub_genre}")
             return normalized
+        else:
+            print(f"Main genre '{main_genre}' doesn't exist.")
+        
+    def del_sub_genre(self, main_genre, sub_genre_to_remove):
+        if self.is_main_genre_exist(main_genre):
+            normalized = normalize_text(sub_genre_to_remove)
+            self._valid_genres[main_genre].remove(sub_genre_to_remove)
+            self._dump_file()
+            print(f"Sub-genre '{sub_genre_to_remove}' removed from '{main_genre}")
+        else:
+            print(f"Main genre '{main_genre}' doesn't exist.")
 
     def is_main_genre_exist(self, main_genre):
         return main_genre in self._valid_genres

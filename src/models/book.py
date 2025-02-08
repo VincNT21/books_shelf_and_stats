@@ -73,9 +73,21 @@ class ReadingRecord:
         self.is_read = True
         if end_date != None:
             self.end_date = end_date
-            self.reading_time = self.calc_duration(self.start_date, self.end_date)
+            self.reading_time = f"{self.calc_duration(self.start_date, self.end_date)} days"
         else:
             self.end_date = "Unknown"
+
+    def to_dict(self):
+        record_as_dict = {
+            "id": self.id,
+            "title": self.title,
+            "author": self.author,
+            "is_read": self.is_read,
+            "start_date": self.start_date.strftime("%Y-%m-%d") if self.start_date else None,
+            "end_date": self.end_date.strftime("%Y-%m-%d")  if self.end_date else None,
+            "reading_time": self.reading_time
+        }
+        return record_as_dict
 
     def __repr__(self):
         if self.is_read:
