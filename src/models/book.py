@@ -51,10 +51,6 @@ class ReadingRecord:
         self.end_date = None
         self.reading_time = None
 
-    
-
-    
-
     def set_start_date(self, start_date):
         self.start_date = self.date_validation_and_format(start_date)
 
