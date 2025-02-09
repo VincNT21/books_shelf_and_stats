@@ -2,6 +2,7 @@ from datetime import datetime, date
 from book_types.book_type_and_genre import BookGenres
 from helpers.generate_id import generate_id
 from helpers.normalize_text import normalize_text
+from helpers.date_utils import convert_date_to_str, convert_str_to_date
 
 class Book:
     def __init__(self, title, author, editor=None, page_nbr=None, year_published=None, main_genre=None, sub_genre=None, isbn=None):
@@ -10,6 +11,8 @@ class Book:
 
         if year_published != None and year_published > date.today().year:
             raise ValueError("Publication year cannot be in the future")
+        if year_published != None and year_published < 1450:
+            raise ValueError("Publication year seems wrong")
         
         if page_nbr != None and page_nbr <= 0:
             raise ValueError("Page number must be positive")
@@ -18,8 +21,8 @@ class Book:
 
         self.title = normalize_text(title)
         self.author = normalize_text(author)
-        self.page_nbr = page_nbr
         self.editor = normalize_text(editor)
+        self.page_nbr = page_nbr
         self.year_published = year_published
 
         self.main_genre = normalize_text(main_genre)
@@ -48,28 +51,15 @@ class ReadingRecord:
         self.end_date = None
         self.reading_time = None
 
-    def date_validation(self, date_to_val):
-        if date_to_val == None:
-            return None
-        parsed_date = datetime.strptime(date_to_val, "%Y-%m-%d").date()
-        if parsed_date <= date.today():
-            return parsed_date
-        else:
-            raise ValueError("The date given is in the future!")
+    
 
-    def calc_duration(self, start_date, end_date):
-        if start_date > end_date:
-            raise ValueError("End date cannot be before start date")
-        else:
-            reading_duration = end_date - start_date
-            reading_duration = reading_duration.days
-            return reading_duration
+    
 
     def set_start_date(self, start_date):
-        self.start_date = self.date_validation(start_date)
+        self.start_date = self.date_validation_and_format(start_date)
 
     def set_end_date_and_duration(self, end_date):
-        end_date = self.date_validation(end_date)
+        end_date = self.date_validation_and_format(end_date)
         self.is_read = True
         if end_date != None:
             self.end_date = end_date
@@ -83,8 +73,8 @@ class ReadingRecord:
             "title": self.title,
             "author": self.author,
             "is_read": self.is_read,
-            "start_date": self.start_date.strftime("%Y-%m-%d") if self.start_date else None,
-            "end_date": self.end_date.strftime("%Y-%m-%d")  if self.end_date else None,
+            "start_date": convert_date_to_str(self.start_date),
+            "end_date": convert_date_to_str(self.end_date),
             "reading_time": self.reading_time
         }
         return record_as_dict

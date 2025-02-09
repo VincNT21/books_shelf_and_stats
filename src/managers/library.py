@@ -1,6 +1,7 @@
 from config import BOOK_LIBRARY_FILE, PERSONAL_LIBRARY_FILE
 from helpers.logging_utils import log_error
 from models.book import ReadingRecord
+from helpers.date_utils import date_validation_and_format, calc_duration
 import json
 
 
@@ -61,11 +62,16 @@ class PersonalLibrary(Library):
         LibraryManager.delete_item(self, book_id)
 
     def book_started(self, book_id, start_date):
+        start_date = date_validation_and_format(start_date)
         LibraryManager.edit_item(self, book_id, "start_date", start_date)
 
     def book_finished(self, book_id, end_date="Unknown"):
+        end_date = date_validation_and_format(end_date)
+        start_date = LibraryManager.find_item(self, book_id, "start_date")
+        reading_duration = calc_duration(start_date, end_date)
         LibraryManager.edit_item(self, book_id, "is_read", True)
         LibraryManager.edit_item(self, book_id, "end_date", end_date)
+        LibraryManager.edit_item(self, book_id, "reading_time", reading_duration)
 
     def __repr__(self):
         return str(self.library)
@@ -106,3 +112,9 @@ class LibraryManager:
             print(f"No item with id:{book_id} found in {library.name}")
         library._dump_library()
         return counter > 0
+    
+    @staticmethod
+    def find_item(library, book_id, field_value_to_find):
+        for element in library.library:
+            if element["id"] == book_id:
+                return element[field_value_to_find]

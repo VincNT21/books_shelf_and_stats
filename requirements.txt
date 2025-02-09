@@ -1,0 +1,1 @@
+-e git+https://github.com/VincNT21/books_shelf_and_stats@9106cd7f5b9c4ebd668e8ee243538cc17cd93f4e#egg=books_shelf_and_stats
