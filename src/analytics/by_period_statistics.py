@@ -2,7 +2,7 @@ from helpers.books_by_period import get_books_read
 from helpers.date_utils import convert_str_to_date
 from collections import defaultdict
 from helpers.logging_utils import log_error
-from config import new_json_path
+from config import json_path
 import json
 
 class YearlyStatistics:
@@ -33,7 +33,7 @@ class YearlyStatistics:
     
     def save_to_json(self):
         filename = f"statistics_{self.year}.json"
-        filepath = new_json_path(filename)
+        filepath = json_path(filename)
         try:
             with open(filepath, "w") as f:
                 json.dump(self.books_by_month_data, f, indent=4, default=list)

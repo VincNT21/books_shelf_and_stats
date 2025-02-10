@@ -1,44 +1,32 @@
+import time
 from tkinter import Tk, Canvas
+from helpers.graph_maths_utils import diagonal_lines
+from gui.primitives import Point, Line
 
 class Window:
     def __init__(self, width, height, title):
         self.__root = Tk()
         self.__root.title(title)
         self.__root.geometry(f"{width}x{height}")
+        self.__root.protocol("WM_DELETE_WINDOW", self.close)
+        self.__running = False
 
     def get_root(self):
         return self.__root  
 
     def run(self):
-        self.__root.mainloop()
-
-
-class WhiteCanvas:
-    def __init__(self, window, width, height):
-        self.__canvas = Canvas(window, width= width, height= height, bg="white")
-        self.__canvas.pack()
-
-    def draw_line(self, line, fill_color="black"):
-        line.draw(self.__canvas, fill_color)
+        self.__running = True
+        while self.__running is True:
+            self.redraw()
+        print("window closed...")
 
     def redraw(self):
-        self.__canvas.update_idletasks()
-        self.__canvas.update()
+        self.__root.update_idletasks()
+        self.__root.update()
 
+    def close(self):
+        self.__running = False
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
-class Line:
-    def __init__(self, p1, p2):
-        self.p1 = p1
-        self.p2 = p2
-
-    def draw(self, canvas, fill_color="black"):
-        canvas.create_line(self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2)
 
 class Cell:
     def __init__(self, canvas=None):
@@ -63,6 +51,18 @@ class Cell:
         right_wall.draw(self._canvas)
         top_wall.draw(self._canvas)
         bottom_wall.draw(self._canvas)
+
+    def color(self, color, window):
+        diagonal_lines_list = diagonal_lines(self._x1, self._x2, self._y1, self._y2)
+        for line in diagonal_lines_list:
+            line.draw_diagonal(self._canvas, fill_color= color)
+            self._animate(window)
+            
+    def _animate(self, window):
+        window.redraw()
+        time.sleep(0.1)
+
+
 
 class Grid:
     def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, canvas=None):

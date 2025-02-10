@@ -6,7 +6,7 @@ BOOK_LIBRARY_FILE = DATA_DIR / "book_library.json"
 PERSONAL_LIBRARY_FILE = DATA_DIR / "personal_library.json"
 BOOK_GENRES_FILE = DATA_DIR / "book_genres.json"
 
-def new_json_path(filename):
+def json_path(filename):
     return DATA_DIR / filename
 
 LOG_FILE = Path("log.txt")
