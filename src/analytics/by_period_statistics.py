@@ -23,7 +23,7 @@ class YearlyStatistics:
         for book in self.book_read:
             book_date = convert_str_to_date(book["end_date"])
             book_month_name = book_date.strftime("%B")
-            books_by_month[book_month_name]["books"].append(book["title"])
+            books_by_month[book_month_name]["books"].append(book)
             books_by_month[book_month_name]["count"] += 1
             books_by_month[book_month_name]["pages"] += book["page_nbr"]
             books_by_month[book_month_name]["genres"][book["main_genre"]]["count"] += 1
