@@ -1,6 +1,6 @@
 import time
 from tkinter import Tk, Canvas
-from helpers.graph_maths_utils import diagonal_lines
+from helpers.graph_maths_utils import diagonal_lines, diagonal_lines_for_bar, fake_progress_bar
 from gui.primitives import Point, Line
 
 class Window:
@@ -36,7 +36,7 @@ class Cell:
         self._y2 = None
         self._canvas = canvas
 
-    def draw(self, x1, x2, y1, y2):
+    def draw(self, x1, x2, y1, y2, state= "normal"):
         if self._canvas is None: # in test case
             return
         self._x1 = x1
@@ -47,25 +47,36 @@ class Cell:
         right_wall = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
         top_wall = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
         bottom_wall = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
-        left_wall.draw(self._canvas)
-        right_wall.draw(self._canvas)
-        top_wall.draw(self._canvas)
-        bottom_wall.draw(self._canvas)
+        left_wall.draw(self._canvas, state= state)
+        right_wall.draw(self._canvas, state= state)
+        top_wall.draw(self._canvas, state= state)
+        bottom_wall.draw(self._canvas, state= state)
 
-    def color(self, color, window):
+    def color_cells(self, color, window):
         diagonal_lines_list = diagonal_lines(self._x1, self._x2, self._y1, self._y2)
         for line in diagonal_lines_list:
             line.draw_diagonal(self._canvas, fill_color= color)
             self._animate(window)
+
+    def color_bars(self, color, window, width, step):
+        lines_list = fake_progress_bar(self._x1, self._x2, self._y1, self._y2, step= step)
+        for line in lines_list:
+            line.draw_diagonal(self._canvas, fill_color= color, width= width)
+            self._animate(window)
+        
+        """diagonal_lines_list = diagonal_lines_for_bar(self._x1, self._x2, self._y1, self._y2, step= step)
+        for line in diagonal_lines_list:
+            line.draw_diagonal(self._canvas, fill_color= color, width= width)
+            self._animate(window)"""
             
     def _animate(self, window):
         window.redraw()
-        time.sleep(0.1)
+        time.sleep(0.01)
 
 
 
 class Grid:
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, canvas=None):
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, canvas=None, state= "normal"):
         self._cells = []
         self._x1 = x1
         self._y1 = y1
@@ -74,9 +85,9 @@ class Grid:
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._canvas = canvas
-        self._create_cells()
+        self._create_cells(state= state)
 
-    def _create_cells(self):
+    def _create_cells(self, state= "normal"):
         for i in range(self._num_cols):
             cells_col = []
             for j in range(self._num_rows):
@@ -85,12 +96,12 @@ class Grid:
         
         for i in range(self._num_cols):
             for j in range(self._num_rows):
-                self._draw_cell(i, j)
+                self._draw_cell(i, j, state= state)
 
-    def _draw_cell(self, i, j):
+    def _draw_cell(self, i, j, state= "normal"):
             x1 = self._x1 + (self._cell_size_x * i)
             x2 = self._x1 + (self._cell_size_x * (i + 1))
             y1 = self._y1 + (self._cell_size_y * j)
             y2 = self._y1 + (self._cell_size_y * (j + 1))
-            self._cells[i][j].draw(x1, x2, y1, y2)
+            self._cells[i][j].draw(x1, x2, y1, y2, state= state)
 

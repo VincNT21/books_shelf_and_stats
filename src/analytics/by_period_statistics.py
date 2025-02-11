@@ -15,8 +15,11 @@ class YearlyStatistics:
             user_data_library,
             {"type": "yearly", "year": year}
         )
-        self.read_book_count = f"You've read {len(self.book_read)} books in {self.year} !"
+        self.annual_data_dict = self.annual_data()
         self.books_by_month_data = self.books_by_month()
+        self.save_to_json(f"monthly_statistics_{self.year}.json", self.books_by_month_data)
+        self.save_to_json(f"annual_statistics_{self.year}.json", self.annual_data_dict)
+
 
     def books_by_month(self):
         books_by_month = defaultdict(lambda: {"books": [], "count": 0, "pages": 0, "genres": defaultdict(lambda: {"count": 0, "sub-genres": defaultdict(int)})})
@@ -28,19 +31,27 @@ class YearlyStatistics:
             books_by_month[book_month_name]["pages"] += book["page_nbr"]
             books_by_month[book_month_name]["genres"][book["main_genre"]]["count"] += 1
             books_by_month[book_month_name]["genres"][book["main_genre"]]["sub-genres"][book["sub_genre"]] += 1
-
         return books_by_month
     
-    def save_to_json(self):
-        filename = f"statistics_{self.year}.json"
+    def annual_data(self):
+        total_pages = 0
+        max_pages = float("-inf")
+        for book in self.book_read:
+            total_pages += book["page_nbr"]
+            if book["page_nbr"] > max_pages:
+                max_pages = book["page_nbr"]
+        annual_data = {"total_books_read": len(self.book_read), "total_pages_read": total_pages, "max_pages_read": max_pages}
+        return annual_data
+
+
+    def save_to_json(self, filename, file):
         filepath = json_path(filename)
         try:
             with open(filepath, "w") as f:
-                json.dump(self.books_by_month_data, f, indent=4, default=list)
+                json.dump(file, f, indent=4, default=list)
             print(f"Data saved to {filename}")
         except OSError as e:
             log_error(f"Error: Failed to write to {filepath}. Reason: {e}")
-        
 
 
 class MonthlyStatistics:
