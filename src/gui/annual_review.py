@@ -3,8 +3,8 @@ import json
 
 from tkinter import ttk
 
-from gui.graphics import Grid, Window, Cell
-from config import json_path
+from gui.helpers.graphics import Grid, Window, Cell
+from config import file_path_in_data
 from helpers.logging_utils import log_error
 from helpers.months_dicts import months_colors, month_to_index
 
@@ -89,7 +89,7 @@ def create_annual_review(year):
 
 def load_statistics_file(year, type):
     filename = f"{type}_statistics_{year}.json"
-    filepath = json_path(filename)
+    filepath = file_path_in_data(filename)
     try:
         with open(filepath, "r") as f:
             return json.load(f)

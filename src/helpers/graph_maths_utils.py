@@ -1,4 +1,4 @@
-from gui.primitives import Line, Point
+from gui.helpers.primitives import Line, Point
 
 def diagonal_lines(x1, x2, y1, y2):
     diagonal_list = []

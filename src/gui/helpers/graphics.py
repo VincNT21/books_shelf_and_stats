@@ -1,7 +1,7 @@
 import time
 from tkinter import Tk, Canvas
 from helpers.graph_maths_utils import diagonal_lines, diagonal_lines_for_bar, fake_progress_bar
-from gui.primitives import Point, Line
+from gui.helpers.primitives import Point, Line
 
 class Window:
     def __init__(self, width, height, title):
