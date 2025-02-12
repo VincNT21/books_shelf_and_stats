@@ -14,6 +14,9 @@ class Window:
     def get_root(self):
         return self.__root  
 
+    def update(self):
+        self.redraw()
+    
     def run(self):
         self.__running = True
         while self.__running is True:
