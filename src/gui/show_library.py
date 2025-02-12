@@ -4,11 +4,12 @@ import json
 from tkinter import ttk
 
 from managers.library import BookLibrary
+from gui.base_page import BasePage
 
-class LibraryDisplay(ttk.Frame):
+class LibraryDisplay(BasePage):
     def __init__(self, parent, page_manager):
-        super().__init__(parent)
-        self.page_manager = page_manager
+        super().__init__(parent, page_manager)
+        
         ttk.Button(self, 
                   text= "Back to home page",
                   command=lambda: self.page_manager.show_page("home")

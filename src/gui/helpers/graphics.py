@@ -10,6 +10,7 @@ class Window:
         self.__root.geometry(f"{width}x{height}")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
         self.__running = False
+        self.__root.configure(bg="white")
 
     def get_root(self):
         return self.__root  
@@ -22,6 +23,7 @@ class Window:
         while self.__running is True:
             self.redraw()
         print("window closed...")
+        self.__root.destroy()
 
     def redraw(self):
         self.__root.update_idletasks()
@@ -74,7 +76,7 @@ class Cell:
             
     def _animate(self, window):
         window.redraw()
-        time.sleep(0.01)
+        time.sleep(0.02)
 
 
 

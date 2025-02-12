@@ -8,6 +8,7 @@ if __name__ == "__main__":
     width = 1024
     height = 768
     root.title("Book Shelf and Stats")
+    root.configure(bg="white")
     
     # to remove/replace before shipping
     center_window(root, width, height)

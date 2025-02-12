@@ -5,10 +5,15 @@ from gui.home_page import HomePage
 from gui.add_book_page import AddBookPage
 from gui.show_library import LibraryDisplay
 
+
+
 class PageManager:
     def __init__(self, root):
         self.root = root
         self.current_frame = None
+
+        self.style = ttk.Style()
+        self.style.configure('Page.TFrame', background="white")
 
         self.home_page = HomePage(self.root, self)
         self.add_book_page = AddBookPage(self.root, self)
