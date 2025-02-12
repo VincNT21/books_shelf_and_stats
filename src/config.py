@@ -3,7 +3,9 @@ from pathlib import Path
 DATA_DIR = Path("data")
 
 ASSETS_DIR = Path("assets")
-ICONS_DIR = ASSETS_DIR / "images" / "icons"
+IMAGES_DIR = ASSETS_DIR / "images"
+ICONS_DIR = IMAGES_DIR / "icons"
+
 
 BOOK_LIBRARY_FILE = DATA_DIR / "book_library.json"
 PERSONAL_LIBRARY_FILE = DATA_DIR / "personal_library.json"
@@ -14,5 +16,8 @@ def file_path_in_data(filename):
 
 def file_path_in_icons(icon_name):
     return ICONS_DIR / icon_name
+
+def file_path_in_images(image_name):
+    return IMAGES_DIR / image_name
 
 LOG_FILE = Path("log.txt")

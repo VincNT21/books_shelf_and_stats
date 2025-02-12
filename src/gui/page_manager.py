@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from gui.home_page import HomePage
 from gui.add_book_page import AddBookPage
+from gui.show_library import LibraryDisplay
 
 class PageManager:
     def __init__(self, root):
@@ -11,6 +12,7 @@ class PageManager:
 
         self.home_page = HomePage(self.root, self)
         self.add_book_page = AddBookPage(self.root, self)
+        self.library_page = LibraryDisplay(self.root, self)
 
 
     def show_page(self, page_name):
@@ -21,6 +23,8 @@ class PageManager:
             self.current_frame = self.home_page
         elif page_name == "add_book":
             self.current_frame = self.add_book_page
+        elif page_name == "book_library":
+            self.current_frame = self.library_page
 
 
         self.current_frame.pack(fill= "both", expand=True)

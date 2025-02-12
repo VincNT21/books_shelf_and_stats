@@ -13,13 +13,6 @@ def center_window(window, width, height):
     
     window.geometry(f"{width}x{height}+{x}+{y}")
 
-def center_window_dual_screen(window, width, height):
-    window.update_idletasks()
-    x = (window.winfo_screenwidth() // 2) - (width * 2)
-    y = (window.winfo_screenheight() // 2) - (height * 2)
-
-    window.geometry(f"{width}x{height}+{x}+{y}")
-
 def set_window_icon(window, icon_name):
     file = file_path_in_icons(icon_name)
     try:
