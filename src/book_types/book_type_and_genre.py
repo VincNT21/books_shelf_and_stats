@@ -3,6 +3,7 @@ from helpers.logging_utils import log_error
 from helpers.normalize_text import normalize_text
 import json
 
+
 class BookGenres:
     def __init__(self):
         self.genre_file = BOOK_GENRES_FILE
@@ -18,7 +19,7 @@ class BookGenres:
     def _dump_file(self):
         try:
             with self.genre_file.open("w") as f:
-                json.dump(self._valid_genres, f)
+                json.dump(self._valid_genres, f, indent=4)
         except OSError as e:
             log_error(f"Error: Failed to write to {self.genre_file}. Reason: {e}")
 

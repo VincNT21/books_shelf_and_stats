@@ -26,4 +26,7 @@ class HomePage(BasePage):
                    text = "Add new books",
                    command=lambda: self.page_manager.show_page("add_book")
                    ).pack(pady= 5)
-        
+        ttk.Button(self,
+                   text = "Edit books",
+                   command=lambda: self.page_manager.show_page("edit_book")
+                   ).pack(pady= 5)

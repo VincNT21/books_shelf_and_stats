@@ -8,6 +8,8 @@ def convert_str_to_date(date_as_str):
 def convert_date_to_str(date):
     if date == None:
         return None
+    elif isinstance(date, str):
+        return date
     return date.strftime("%Y-%m-%d")
 
 def date_validation_and_format(date_to_val):

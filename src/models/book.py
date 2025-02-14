@@ -2,7 +2,7 @@ from datetime import datetime, date
 from book_types.book_type_and_genre import BookGenres
 from helpers.generate_id import generate_id
 from helpers.normalize_text import normalize_text
-from helpers.date_utils import convert_date_to_str, convert_str_to_date
+from helpers.date_utils import convert_date_to_str, date_validation_and_format, calc_duration
 
 class Book:
     def __init__(self, title, author, editor=None, page_nbr=None, year_published=None, main_genre=None, sub_genre=None, isbn=None):
@@ -52,14 +52,14 @@ class ReadingRecord:
         self.reading_time = None
 
     def set_start_date(self, start_date):
-        self.start_date = self.date_validation_and_format(start_date)
+        self.start_date = date_validation_and_format(start_date)
 
     def set_end_date_and_duration(self, end_date):
-        end_date = self.date_validation_and_format(end_date)
+        end_date = date_validation_and_format(end_date)
         self.is_read = True
         if end_date != None:
             self.end_date = end_date
-            self.reading_time = f"{self.calc_duration(self.start_date, self.end_date)} days"
+            self.reading_time = f"{calc_duration(self.start_date, self.end_date)} days"
         else:
             self.end_date = "Unknown"
 

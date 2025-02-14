@@ -5,6 +5,7 @@ from models.book import ReadingRecord
 from helpers.date_utils import date_validation_and_format, calc_duration
 from helpers.reset import reset
 from models.book import Book
+from book_types.book_type_and_genre import BookGenres
 
     
 class BookLibrary:
@@ -32,7 +33,7 @@ class PersonalLibrary:
         self.library = load_library(self.library_file)
         self.name = "Personal Data Library"
 
-    def add_book_reading_record(self, book, is_read=False, start_date=None, end_date="Unknown") -> bool:
+    def add_book_reading_record(self, book, is_read=False, start_date=None, end_date=None) -> bool:
         book_reading_record = ReadingRecord(book)
         if start_date != None:
             book_reading_record.set_start_date(start_date)
@@ -58,6 +59,7 @@ class PersonalLibrary:
         reading_duration = calc_duration(start_date, end_date)
         sucess_3 = LibraryManager.edit_item(self, book_id, "reading_time", reading_duration)
         return sucess_1 and sucess_2 and sucess_3
+    
         
 
     def __repr__(self):
@@ -67,12 +69,16 @@ class LibraryManager:
     def __init__(self, book_library, personal_library):
         self.book_library = book_library
         self.pers_data_library = personal_library
+        self.book_genres = BookGenres()
 
     def initialize_new_libraries(self):
         reset(BOOK_LIBRARY_FILE)
         reset(PERSONAL_LIBRARY_FILE)
         self.book_library = BookLibrary()
         self.pers_data_library = PersonalLibrary()
+
+    def get_genres_dict(self):
+        return self.book_genres.get_all_types()
 
     def new_book(
             self,
@@ -109,6 +115,15 @@ class LibraryManager:
             book_library_sucess = self.book_library.edit_book(book_id, field_to_edit, new_value)
             data_library_sucess = self.pers_data_library.edit_book_info(book_id, field_to_edit, new_value)
             return book_library_sucess and data_library_sucess
+        if field_to_edit == "main_genre":
+            if not self.book_genres.is_main_genre_exist(new_value):
+                self.book_genres.add_main_genre(new_value)
+            return self.book_library.edit_book(book_id, field_to_edit, new_value)
+        if field_to_edit == "sub_genre":
+            associated_main_genre = self.find_book_and_record(book_id)["main_genre"]
+            if not self.book_genres.is_sub_genre_exist(associated_main_genre, new_value):
+                self.book_genres.add_sub_genre(associated_main_genre, new_value)
+            return self.book_library.edit_book(book_id, field_to_edit, new_value)
         if field_to_edit == "start_date":
             return self.pers_data_library.book_started(book_id, new_value)
         if field_to_edit == "end_date":
@@ -118,13 +133,16 @@ class LibraryManager:
 
     
     def find_book_and_record(self, book_id):
+        if book_id == None:
+            return {}
         book_data = next((item for item in self.book_library.library if item["id"] == book_id), None)
         if not book_data:
             print(f"Book with ID {book_id} not found in BookLibrary")
         personal_data = next((item for item in self.pers_data_library.library if item["id"] == book_id), None)
         if not personal_data:
             print(f"Book with ID {book_id} not found in PersonalDataLibrary")
-        return book_data, personal_data
+        whole_data = book_data | personal_data
+        return whole_data
 
 
 
