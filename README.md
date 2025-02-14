@@ -21,6 +21,7 @@ More to come :
 - Export your book library and/or your personnal record library
 - Use a multi-user login, with separate libraries
 - An extended Annual Review page
+- Translation to french
 
 ## Setup Instructions 
 To rewrite

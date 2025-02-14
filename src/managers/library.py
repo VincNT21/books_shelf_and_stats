@@ -103,8 +103,9 @@ class LibraryManager:
         return self.pers_data_library.book_finished(book_id, end_date)
 
     def remove_book(self, book_id) -> bool:
-        self.book_library.del_book(book_id)
-        return self.pers_data_library.del_book_pers_data(book_id)
+        success1 = self.book_library.del_book(book_id)
+        success2 = self.pers_data_library.del_book_pers_data(book_id)
+        return success1 and success2
         
     
     def edit_a_book(self, book_id, field_to_edit, new_value) -> bool: 

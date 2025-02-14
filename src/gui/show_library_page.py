@@ -2,6 +2,7 @@ import tkinter as tk
 import json
 
 from tkinter import ttk
+from tkinter.messagebox import askyesno, showinfo, WARNING
 
 from gui.base_page import BasePage
 from gui.edit_book_data_box import EditBox
@@ -17,6 +18,7 @@ class LibraryDisplay(BasePage):
         # create the right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Edit this book", command=self.edit_book)
+        self.menu.add_command(label="Delete this book", command=self.delete_book)
 
         self.tree = self.create_tree_widget()
         self.tree.bind("<Button-3>", self.treeview_right_click)
@@ -78,13 +80,13 @@ class LibraryDisplay(BasePage):
         self.columnconfigure(0, weight=1)
         
         # Initialize the treeview columns
-        columns = ("title", "author", "editor", "pages", "year", "main_genre", "sub_genre", "is_read", "start_date", "end_date", "reading_time")
+        columns = ("title", "author", "editor", "page_nbr", "year_published", "main_genre", "sub_genre", "is_read", "start_date", "end_date", "reading_time")
         display_names = {
             "title": "Title",
             "author": "Author",
             "editor": "Editor",
-            "pages": "Pages",
-            "year": "Year",
+            "page_nbr": "Pages",
+            "year_published": "Year",
             "main_genre": "Main Genre",
             "sub_genre": "Sub Genre",
             "is_read": "Book Read?",
@@ -160,6 +162,19 @@ class LibraryDisplay(BasePage):
         self.page_manager.app_context.book_selected_field = self.selected_field
         self.page_manager.app_context.get_book_data()
         EditBox(self, self.page_manager)
+
+    def delete_book(self):
+        selected_book = self.tree.selection()
+        if selected_book:
+            book_id = selected_book[0]
+            answer = askyesno(
+                title="Delete confirmation",
+                message=f"Are you sure to PERMANENTLY DELETE this book ??",
+                icon=WARNING
+            )
+            if answer:
+                self.page_manager.app_context.library_manager.remove_book(book_id)
+                self.refresh_display()
 
 
         """

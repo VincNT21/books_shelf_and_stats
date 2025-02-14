@@ -81,10 +81,10 @@ class PageManager:
         )
         self.style.map("Custom.TCheckbutton", background=[('active', 'white')])
 
+        # Create all pages
         self.home_page = HomePage(self.root, self)
         self.add_book_page = AddBookPage(self.root, self)
         self.library_page = LibraryDisplay(self.root, self)
-        self.edit_page = EditPage(self.root, self)
 
 
     def show_page(self, page_name):
@@ -97,8 +97,7 @@ class PageManager:
         elif page_name == "add_book":
             self.current_frame = self.add_book_page
         elif page_name == "book_library":
+            self.library_page.refresh_display()
             self.current_frame = self.library_page
-        elif page_name == "edit_book":
-            self.current_frame = self.edit_page
 
         self.current_frame.pack(fill= "both", expand=True)
