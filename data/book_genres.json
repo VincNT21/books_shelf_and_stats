@@ -1,0 +1,16 @@
+{
+    "Novel": [
+        "Science Fiction",
+        "Fantasy",
+        "Thriller"
+    ],
+    "Comic Book": [
+        "Science Fiction",
+        "Humor"
+    ],
+    "Essay": [
+        "Political",
+        "Activism",
+        "Feminism"
+    ]
+}

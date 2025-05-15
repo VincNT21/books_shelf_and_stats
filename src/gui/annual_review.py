@@ -7,14 +7,15 @@ from gui.helpers.graphics import Grid, Window, Cell
 from config import file_path_in_data
 from helpers.logging_utils import log_error
 from helpers.months_dicts import months_colors, month_to_index
+from analytics.by_period_statistics import YearlyStatistics
 
 
 
-def create_annual_review(year):
+def create_annual_review(user_book_library, user_data_library, year):
     window = Window(600, 800, "Annual review")
     root = window.get_root()
-    monthly_statistics = load_statistics_file(year, "monthly")
-    annual_statistics = load_statistics_file(year, "annual")
+    monthly_statistics = load_statistics_file(user_book_library, user_data_library, year, "monthly")
+    annual_statistics = load_statistics_file(user_book_library, user_data_library, year, "annual")
 
     # Title top of window
     title_label = ttk.Label(root, text= f"Reading stats of {year}", font= ("Arial", 20), padding= 5, background="white")
@@ -87,7 +88,8 @@ def create_annual_review(year):
     # Running it !
     window.run()
 
-def load_statistics_file(year, type):
+def load_statistics_file(user_book_library, user_data_library, year, type):
+    YearlyStatistics(user_book_library, user_data_library, year)
     filename = f"{type}_statistics_{year}.json"
     filepath = file_path_in_data(filename)
     try:

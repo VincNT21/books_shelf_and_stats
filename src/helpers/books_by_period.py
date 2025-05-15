@@ -21,7 +21,10 @@ def get_books_read(user_book_library, user_data_library, period):
             if item["is_read"] == False:
                 continue
             parsed_date = convert_str_to_date(item["end_date"])
+            print(f"parsed_date.year = {parsed_date.year}, type = {type(parsed_date.year).__name__} // year = {year}, type = {type(year).__name__}")
+            
             if parsed_date.year == year:
+                print("found a book")
                 id_list.append(item["id"])
 
     elif period["type"] == "custom":

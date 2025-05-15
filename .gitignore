@@ -1,7 +1,7 @@
 tests/
 __pycache__/
 experiment.py
-data/
+data(my version)/
 venv/
 log.txt
 src/tests.py

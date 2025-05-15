@@ -19,8 +19,8 @@ class HomePage(BasePage):
                    command=lambda: self.page_manager.show_page("book_library")
                    ).pack(pady= 5)
         ttk.Button(self, 
-                   text= "Annual review !", 
-                   command=lambda: create_annual_review("2024")
+                   text= "Annual review for 2024!", 
+                   command=lambda: create_annual_review(self.page_manager.app_context.books_library, self.page_manager.app_context.personal_library, 2024)
                    ).pack(pady= 5)
         ttk.Button(self,
                    text = "Add new books",

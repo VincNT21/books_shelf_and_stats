@@ -68,7 +68,7 @@ class MonthlyStatistics:
         self.read_book_count = f"You've read {len(self.book_read)} books in {self.year}-{self.month} !"
 
 
-class ByTimePeriodStatisctics:
+class ByTimePeriodStatistics:
     def __init__(self, user_book_library, user_data_library, start_day, end_day):
         self.book_library = user_book_library
         self.user_data_library = user_data_library

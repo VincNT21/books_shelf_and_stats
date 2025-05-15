@@ -77,7 +77,6 @@ class AddBookPage(BasePage):
 
         ttk.Label(self, text="Sub genre =", background="white").grid(row=4, column=2)
 
-        # I WAAAAS HEEEEERE
         sub_genres_cb = ttk.Combobox(self, textvariable=self.sub_genre)
         sub_genres_cb.grid(row=4, column=3)
 
