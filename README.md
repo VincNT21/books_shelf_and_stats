@@ -51,8 +51,8 @@ python3 src/main.py
 
 ## Screenshots
 
-![Home Page]()
+![Home Page](https://raw.githubusercontent.com/VincNT21/books_shelf_and_stats/refs/heads/main/assets/images/screenshots/home_page.png)
 
-![Annual Review]()
+![Annual Review](https://raw.githubusercontent.com/VincNT21/books_shelf_and_stats/refs/heads/main/assets/images/screenshots/annual_review.png)
 
-![Add book page]()
+![Add book page](https://raw.githubusercontent.com/VincNT21/books_shelf_and_stats/refs/heads/main/assets/images/screenshots/add_book_page.png)
