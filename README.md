@@ -16,12 +16,24 @@ With this app, using a simple graphic user interface, you can:
 - Edit a specific field in a already added book (right-click on the field in the library display)
 - Generate a Annual Review animated page
 
+***Screenshots below !***
+
 More to come :
 - Show stats monthly, yearly or by custom period
 - Export your book library and/or your personnal record library
 - Use a multi-user login, with separate libraries
 - An extended Annual Review page
 - Translation to french
+
+## Development
+
+I build this app for a friend who wanted something simple to store the books she read and get a annual reading review.
+I made it in two layers:
+1. Data storage/management core implementation
+2. A Tkinter GUI interface
+
+This project is not perfect but it has been a great help in applying and developing my coding skills.  
+I'm currently working on a more ambitious version : [Project Kallaxy](https://github.com/VincNT21/project_kallaxy) 
 
 ## Setup Instructions 
 This project uses a Python virtual environment to manage dependencies.
@@ -36,3 +48,11 @@ cd books_shelf_and_stats
 ```
 python3 src/main.py
 ```
+
+## Screenshots
+
+![Home Page]()
+
+![Annual Review]()
+
+![Add book page]()
